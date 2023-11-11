@@ -1,0 +1,22 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: true
+      dhcp6: true
+      match:
+        macaddress: aa:57:cc:00:ee:ff
+      addresses:
+        - "192.168.0.1/24"
+        - "192.168.0.2/24"
+        - "192.168.0.3/24"
+        - "192.168.0.4/24"
+        - "192.168.0.5/24"
+        - a:b:c:1:2:3::4/96
+        - 10.20.30.40/24:
+            lifetime: 0
+            label: oi
+        - 172.16.0.1/24:
+            lifetime: forever
+            label: managed IP
