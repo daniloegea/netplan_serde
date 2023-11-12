@@ -55,6 +55,51 @@ pub struct Nameservers {
     addresses: Option<Vec<String>>,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Route {
+    from: Option<String>,
+    to: Option<String>,
+    via: Option<String>,
+    #[serde(rename = "on-link", default, deserialize_with = "deserialize_boolean")]
+    on_link: Option<String>,
+    metric: Option<u64>,
+    #[serde(rename = "type", default)]
+    route_type: Option<String>,
+    scope: Option<String>,
+    table: Option<u64>,
+    mtu: Option<u64>,
+    #[serde(rename = "congestion-window", default)]
+    congestion_window: Option<u64>,
+    #[serde(rename = "advertised-receive-window", default)]
+    advertised_receive_window: Option<u64>,
+
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RoutingPolicy {
+    from: Option<String>,
+    to: Option<String>,
+    table: Option<u64>,
+    priority: Option<u64>,
+    mark: Option<u64>,
+    #[serde(rename = "type-of-service", default)]
+    type_of_service: Option<u64>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct OpenvSwitch {
+    #[serde(rename = "external-ids", default)]
+    external_ids: Option<BTreeMap<String, String>>,
+    #[serde(rename = "other-config", default)]
+    other_config: Option<BTreeMap<String, String>>,
+    lacp: Option<String>,
+    #[serde(rename = "fail-mode", default)]
+    fail_mode: Option<String>,
+}
+
 fn validate_ipaddress(ipv4: &str) -> Result<(), ()> {
 
     let parts: Vec<&str> = ipv4.split('/').collect();
@@ -209,6 +254,14 @@ pub fn deserialize_optional_addresses<'de, D>(d: D) -> Result<Option<Vec<String>
 
     Ok(Some(optional))
 
+}
+
+pub fn deserialize_activation_mode<'de, D>(d: D) -> Result<Option<String>, D::Error>
+    where D: Deserializer<'de> {
+
+    let value = String::deserialize(d)?;
+
+    Ok(Some(value))
 }
 
 
