@@ -53,3 +53,25 @@ pub struct OpenvSwitchSSL {
     #[serde(rename = "private-key")]
     private_key: Option<String>,
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Auth {
+    #[serde(rename = "key-management")]
+    key_management: Option<String>,
+    password: Option<String>,
+    method: Option<String>,
+    identity: Option<String>,
+    #[serde(rename = "anonymous-identity")]
+    anonymous_identity: Option<String>,
+    #[serde(rename = "ca-certificate")]
+    ca_certificate: Option<String>,
+    #[serde(rename = "client-certificate")]
+    client_certificate: Option<String>,
+    #[serde(rename = "client-key")]
+    client_key: Option<String>,
+    #[serde(rename = "client-key-password")]
+    client_key_password: Option<String>,
+    #[serde(rename = "phase2-auth")]
+    phase2_auth: Option<String>,
+}

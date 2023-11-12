@@ -5,6 +5,7 @@ use serde::{Serialize, Deserialize};
 
 use crate::common;
 use crate::common_physical;
+use crate::common_physical::Auth;
 use crate::common_physical::OpenvSwitch;
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -83,6 +84,7 @@ pub struct Ethernet {
     #[serde(rename = "large-receive-offload", default, deserialize_with = "common::deserialize_boolean")]
     large_receive_offload: Option<String>,
     openvswitch: Option<OpenvSwitch>,
+    auth: Option<Auth>,
 }
 
 

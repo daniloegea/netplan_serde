@@ -8,6 +8,11 @@ network:
       renderer: networkd
       ipv6-mtu: 1200
       ipv6-privacy: yes
+      auth:
+        key-management: eap
+        method: leap
+        identity: username
+        password: password
       match:
         macaddress: aa:57:cc:00:ee:ff
       addresses:
