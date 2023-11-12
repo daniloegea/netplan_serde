@@ -88,18 +88,6 @@ pub struct RoutingPolicy {
     type_of_service: Option<u64>,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-pub struct OpenvSwitch {
-    #[serde(rename = "external-ids", default)]
-    external_ids: Option<BTreeMap<String, String>>,
-    #[serde(rename = "other-config", default)]
-    other_config: Option<BTreeMap<String, String>>,
-    lacp: Option<String>,
-    #[serde(rename = "fail-mode", default)]
-    fail_mode: Option<String>,
-}
-
 fn validate_ipaddress(ipv4: &str) -> Result<(), ()> {
 
     let parts: Vec<&str> = ipv4.split('/').collect();
