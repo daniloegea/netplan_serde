@@ -5,6 +5,7 @@ network:
     eth0:
       dhcp4: true
       dhcp6: true
+      renderer: networkd
       match:
         macaddress: aa:57:cc:00:ee:ff
       addresses:
