@@ -1,5 +1,6 @@
 use std::{collections::BTreeMap, fmt::Debug, net::IpAddr, str::FromStr};
 
+use regex::Regex;
 use serde::{Serialize, Deserialize, Deserializer, de };
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -23,6 +24,35 @@ pub enum IPAddress {
     Ip(String),
     #[serde(deserialize_with = "deserialize_ipaddress_with_options")]
     IpWithOptions(BTreeMap<String, IPOptions>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct DHCPOverrides {
+    #[serde(rename = "use-dns", default, deserialize_with = "deserialize_boolean")]
+    use_dns: Option<String>,
+    #[serde(rename = "use-ntp", default, deserialize_with = "deserialize_boolean")]
+    use_ntp: Option<String>,
+    #[serde(rename = "send-hostname", default, deserialize_with = "deserialize_boolean")]
+    send_hostname: Option<String>,
+    #[serde(rename = "use-hostname", default, deserialize_with = "deserialize_boolean")]
+    use_hostname: Option<String>,
+    #[serde(rename = "use-mtu", default, deserialize_with = "deserialize_boolean")]
+    use_mtu: Option<String>,
+    hostname: Option<String>,
+    #[serde(rename = "use-routes", default, deserialize_with = "deserialize_boolean")]
+    use_routes: Option<String>,
+    #[serde(rename = "route-metric", default)]
+    route_metric: Option<u64>,
+    #[serde(rename = "use-domains", default)]
+    use_domains: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Nameservers {
+    search: Option<Vec<String>>,
+    addresses: Option<Vec<String>>,
 }
 
 fn validate_ipaddress(ipv4: &str) -> Result<(), ()> {
@@ -103,6 +133,81 @@ pub fn deserialize_renderer<'de, D>(d: D) -> Result<Option<String>, D::Error>
     }
 
     Ok(Some(renderer))
+
+}
+
+pub fn deserialize_link_local<'de, D>(d: D) -> Result<Option<Vec<String>>, D::Error>
+    where D: Deserializer<'de> {
+
+    let mut link_local: Vec<String> = Vec::deserialize(d)?;
+
+    for val in &link_local {
+        if val != "ipv4" && val != "ipv6" {
+            return Err(de::Error::invalid_value(de::Unexpected::Str(&val), &"value must be either ipv4 or ipv6"));
+        }
+    }
+
+    link_local.dedup();
+
+    Ok(Some(link_local))
+
+}
+
+pub fn deserialize_dhcp_identifier<'de, D>(d: D) -> Result<Option<String>, D::Error>
+    where D: Deserializer<'de> {
+
+    let identifier = String::deserialize(d)?;
+
+    if identifier != "duid" && identifier != "mac" {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&identifier), &"renderer must be either duid or mac"));
+    }
+
+    Ok(Some(identifier))
+
+}
+
+pub fn deserialize_ipv6_address_generation<'de, D>(d: D) -> Result<Option<String>, D::Error>
+    where D: Deserializer<'de> {
+
+    let identifier = String::deserialize(d)?;
+
+    if identifier != "euid64" && identifier != "stable-privacy" {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&identifier), &"renderer must be either duid or mac"));
+    }
+
+    Ok(Some(identifier))
+
+}
+
+pub fn deserialize_macaddress<'de, D>(d: D) -> Result<Option<String>, D::Error>
+    where D: Deserializer<'de> {
+
+    let re = Regex::new(r"[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}:[0-9a-fA-F]{2}").unwrap();
+
+    let value = String::deserialize(d)?;
+
+    if !re.is_match(&value) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"macaddress not well formed"));
+    }
+
+    Ok(Some(value))
+
+}
+
+pub fn deserialize_optional_addresses<'de, D>(d: D) -> Result<Option<Vec<String>>, D::Error>
+    where D: Deserializer<'de> {
+
+    let mut optional: Vec<String> = Vec::deserialize(d)?;
+
+    for val in &optional {
+        if val != "ipv4" && val != "ipv6" {
+            return Err(de::Error::invalid_value(de::Unexpected::Str(&val), &"value must be either ipv4 or ipv6"));
+        }
+    }
+
+    optional.dedup();
+
+    Ok(Some(optional))
 
 }
 
