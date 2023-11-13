@@ -1,4 +1,3 @@
-
 use std::fmt::Debug;
 
 use serde::{Serialize, Deserialize};
@@ -12,7 +11,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Modem {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -108,5 +106,3 @@ pub struct Modem {
     sim_operator_id: Option<String>,
     username: Option<String>,
 }
-
-

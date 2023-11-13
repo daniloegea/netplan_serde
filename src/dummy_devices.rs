@@ -1,4 +1,3 @@
-
 use std::fmt::Debug;
 
 use serde::{Serialize, Deserialize};
@@ -9,8 +8,7 @@ use crate::common_physical::OpenvSwitch;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
-pub struct DummyDevices {
-
+pub struct DummyDevice {
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -63,5 +61,3 @@ pub struct DummyDevices {
     openvswitch: Option<OpenvSwitch>,
     networkmanager: Option<NetworkManager>,
 }
-
-

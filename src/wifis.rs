@@ -1,4 +1,3 @@
-
 use std::fmt::Debug;
 use std::collections::BTreeMap;
 
@@ -13,7 +12,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Wifi {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -96,7 +94,6 @@ pub struct Wifi {
     #[serde(rename = "access-points", default)]
     access_points: Option<BTreeMap<String, AccessPoints>>,
 }
-
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]

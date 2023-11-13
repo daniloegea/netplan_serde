@@ -73,7 +73,6 @@ pub struct Route {
     congestion_window: Option<u64>,
     #[serde(rename = "advertised-receive-window", default)]
     advertised_receive_window: Option<u64>,
-
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -262,5 +261,3 @@ pub fn deserialize_activation_mode<'de, D>(d: D) -> Result<Option<String>, D::Er
 
     Ok(Some(value))
 }
-
-

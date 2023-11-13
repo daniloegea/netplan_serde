@@ -1,4 +1,3 @@
-
 use std::{fs, collections::BTreeMap, fmt::Debug};
 
 use serde_yaml;
@@ -25,13 +24,12 @@ struct Network {
     version: Option<u8>,
     #[serde(deserialize_with = "common::deserialize_renderer")]
     renderer: Option<String>,
-
     ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
     modems: Option<BTreeMap<String, modems::Modem>>,
     wifis: Option<BTreeMap<String, wifis::Wifi>>,
     bridges: Option<BTreeMap<String, bridges::Bridge>>,
     #[serde(rename = "dummy-devices")]
-    dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevices>>,
+    dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevice>>,
     bonds: Option<BTreeMap<String, bonds::Bond>>,
     tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
     #[serde(rename = "virtual-ethernets")]

@@ -66,5 +66,3 @@ pub struct Vrf {
     interfaces: Option<Vec<String>>,
     table: Option<u64>,
 }
-
-

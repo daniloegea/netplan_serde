@@ -9,7 +9,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Vlan {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -66,5 +65,3 @@ pub struct Vlan {
     id: Option<u64>,
     link: Option<String>,
 }
-
-

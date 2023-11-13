@@ -1,4 +1,3 @@
-
 use std::fmt::Debug;
 
 use serde::{Serialize, Deserialize};
@@ -12,7 +11,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Ethernet {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -101,9 +99,4 @@ pub struct Ethernet {
     delay_virtual_functions_rebind: Option<String>,
     #[serde(rename = "infiniband-mode", default)]
     infiniband_mode: Option<String>,
-
-
-
 }
-
-

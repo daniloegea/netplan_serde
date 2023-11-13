@@ -1,4 +1,3 @@
-
 use std::fmt::Debug;
 
 use serde::{Serialize, Deserialize};
@@ -10,7 +9,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct VirtualEthernet {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
@@ -66,5 +64,3 @@ pub struct VirtualEthernet {
     // Virtual Ethernet options
     peer: Option<String>,
 }
-
-

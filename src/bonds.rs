@@ -1,4 +1,3 @@
-
 use std::collections::BTreeMap;
 use std::fmt::Debug;
 
@@ -11,7 +10,6 @@ use crate::common_physical::OpenvSwitch;
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Bond {
-
     // Common options
     #[serde(deserialize_with = "common::deserialize_renderer", default)]
     renderer: Option<String>,
