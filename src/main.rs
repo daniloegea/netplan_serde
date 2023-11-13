@@ -7,6 +7,7 @@ use serde::{Serialize, Deserialize};
 pub mod common;
 pub mod common_physical;
 pub mod ethernets;
+pub mod modems;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -17,6 +18,7 @@ struct Network {
     renderer: Option<String>,
 
     ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
+    modems: Option<BTreeMap<String, modems::Modem>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
