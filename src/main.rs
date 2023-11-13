@@ -13,6 +13,7 @@ pub mod bridges;
 pub mod dummy_devices;
 pub mod bonds;
 pub mod tunnels;
+pub mod virtual_ethernets;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -30,6 +31,8 @@ struct Network {
     dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevices>>,
     bonds: Option<BTreeMap<String, bonds::Bond>>,
     tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
+    #[serde(rename = "virtual-ethernets")]
+    virtual_ethernets: Option<BTreeMap<String, virtual_ethernets::VirtualEthernet>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

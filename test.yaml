@@ -146,3 +146,8 @@ network:
         - to: default
           via: 10.10.10.21
           metric: 100
+  virtual-ethernets:
+    veth0-peer1:
+      peer: veth0-peer2
+    veth0-peer2:
+      peer: veth0-peer1
