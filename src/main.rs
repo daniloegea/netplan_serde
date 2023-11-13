@@ -56,7 +56,7 @@ fn main() {
     let a: Netplan = match serde_yaml::from_str(&yaml) {
         Ok(n) => n,
         Err(err) => {
-            println!("Pau em {:?}", err);
+            println!("Error {:?}", err);
             return;
         }
     };
