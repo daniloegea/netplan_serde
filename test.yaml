@@ -174,3 +174,23 @@ network:
           via: 10.10.10.4
       routing-policy:
         - from: 10.10.10.42
+  nm-devices:
+    NM-db5f0f67-1f4c-4d59-8ab8-3d278389cf87:
+      renderer: NetworkManager
+      networkmanager:
+        uuid: "db5f0f67-1f4c-4d59-8ab8-3d278389cf87"
+        name: "myvpnconnection"
+        passthrough:
+          connection.type: "vpn"
+          vpn.ca: "path to ca.crt"
+          vpn.cert: "path to client.crt"
+          vpn.cipher: "AES-256-GCM"
+          vpn.connection-type: "tls"
+          vpn.dev: "tun"
+          vpn.key: "path to client.key"
+          vpn.remote: "1.2.3.4:1194"
+          vpn.service-type: "org.freedesktop.NetworkManager.openvpn"
+          ipv4.method: "auto"
+          ipv6.addr-gen-mode: "default"
+          ipv6.method: "auto"
+          proxy._: ""
