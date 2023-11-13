@@ -111,3 +111,38 @@ network:
         mode: active-backup
         primary: enp3s0
         mii-monitor-interval: 100
+  tunnels:
+    vxlan1005:
+      mode: vxlan
+      id: 1005
+      link: lo
+      mtu: 8950
+      accept-ra: no
+      neigh-suppress: true
+      mac-learning: false
+      port: 4789
+      local: 192.168.10.10
+    he-ipv6:
+      mode: sit
+      remote: 2.2.2.2
+      local: 1.1.1.1
+      addresses:
+        - "2001:dead:beef::2/64"
+      routes:
+        - to: default
+          via: "2001:dead:beef::1"
+    wg0:
+      mode: wireguard
+      addresses: [10.10.10.20/24]
+      key: 4GgaQCy68nzNsUE5aJ9fuLzHhB65tAlwbmA72MWnOm8=
+      mark: 42
+      port: 51820
+      peers:
+        - keys:
+            public: M9nt4YujIOmNrRmpIRTmYSfMdrpvE7u6WkG8FY8WjG4=
+            shared: 7voRZ/ojfXgfPOlswo3Lpma1RJq7qijIEEUEMShQFV8=
+          allowed-ips: [20.20.20.10/24]
+      routes:
+        - to: default
+          via: 10.10.10.21
+          metric: 100

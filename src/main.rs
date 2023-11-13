@@ -12,6 +12,7 @@ pub mod wifis;
 pub mod bridges;
 pub mod dummy_devices;
 pub mod bonds;
+pub mod tunnels;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -28,6 +29,7 @@ struct Network {
     #[serde(rename = "dummy-devices")]
     dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevices>>,
     bonds: Option<BTreeMap<String, bonds::Bond>>,
+    tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
