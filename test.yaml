@@ -80,3 +80,11 @@ network:
       routing-policy:
         - to: 192.168.0.2
           table: 1234
+  wifis:
+    wlp1s0:
+      dhcp4: true
+      access-points:
+        "WPA3-Network":
+          auth:
+            key-management: sae
+            password: abcdefgh

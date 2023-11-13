@@ -8,6 +8,7 @@ pub mod common;
 pub mod common_physical;
 pub mod ethernets;
 pub mod modems;
+pub mod wifis;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -19,6 +20,7 @@ struct Network {
 
     ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
     modems: Option<BTreeMap<String, modems::Modem>>,
+    wifis: Option<BTreeMap<String, wifis::Wifi>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
