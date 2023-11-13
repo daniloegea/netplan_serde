@@ -97,3 +97,7 @@ network:
         stp: true
         port-priority:
           enp3s0: 100
+  dummy-devices:
+    dm0:
+      addresses:
+        - 10.1.2.3/24
