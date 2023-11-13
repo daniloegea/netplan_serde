@@ -3,9 +3,11 @@ use std::fmt::Debug;
 use std::collections::BTreeMap;
 
 use serde::{Serialize, Deserialize};
+use serde_with::skip_serializing_none;
 
 use crate::common;
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Match {
@@ -15,6 +17,7 @@ pub struct Match {
     macaddress: Option<String>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct OpenvSwitch {
@@ -35,6 +38,7 @@ pub struct OpenvSwitch {
 
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct OpenvSwitchController {
@@ -44,6 +48,7 @@ pub struct OpenvSwitchController {
     ssl: Option<OpenvSwitchSSL>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct OpenvSwitchSSL {
@@ -54,6 +59,7 @@ pub struct OpenvSwitchSSL {
     private_key: Option<String>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Auth {

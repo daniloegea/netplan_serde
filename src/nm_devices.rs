@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 
 use serde::{Serialize, Deserialize};
+use serde_with::skip_serializing_none;
 
 use crate::common;
 use crate::common::NetworkManager;
@@ -8,6 +9,7 @@ use crate::common_physical;
 use crate::common_physical::Auth;
 use crate::common_physical::OpenvSwitch;
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct NmDevice {

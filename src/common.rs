@@ -2,6 +2,7 @@ use std::{collections::BTreeMap, fmt::Debug, net::IpAddr, str::FromStr};
 
 use regex::Regex;
 use serde::{Serialize, Deserialize, Deserializer, de };
+use serde_with::skip_serializing_none;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -10,6 +11,7 @@ enum IpOptionLifetime {
     Text(String),
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct IPOptions {
@@ -26,6 +28,7 @@ pub enum IPAddress {
     IpWithOptions(BTreeMap<String, IPOptions>),
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct DHCPOverrides {
@@ -48,6 +51,7 @@ pub struct DHCPOverrides {
     use_domains: Option<String>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Nameservers {
@@ -55,6 +59,7 @@ pub struct Nameservers {
     addresses: Option<Vec<String>>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Route {
@@ -75,6 +80,7 @@ pub struct Route {
     advertised_receive_window: Option<u64>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct RoutingPolicy {
@@ -87,6 +93,7 @@ pub struct RoutingPolicy {
     type_of_service: Option<u64>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct NetworkManager {
@@ -106,7 +113,6 @@ fn validate_ipaddress(ipv4: &str) -> Result<(), ()> {
     }
     let ip = IpAddr::from_str(parts[0]);
 
-    println!("{:?}", ip);
     match ip {
         Ok(_) => return Ok(()),
         Err(_) => return Err(()),

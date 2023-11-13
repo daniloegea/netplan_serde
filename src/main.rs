@@ -1,5 +1,6 @@
 use std::{fs, collections::BTreeMap, fmt::Debug};
 
+use serde_with::skip_serializing_none;
 use serde_yaml;
 use serde::{Serialize, Deserialize};
 
@@ -17,6 +18,7 @@ pub mod vlans;
 pub mod vrfs;
 pub mod nm_devices;
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Network {
@@ -40,6 +42,7 @@ struct Network {
     nm_devices: Option<BTreeMap<String, nm_devices::NmDevice>>,
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Netplan {
@@ -59,5 +62,7 @@ fn main() {
     };
 
     println!("{a:#?}");
-    
+
+    let yaml = serde_yaml::to_string(&a).unwrap();
+    println!("{yaml}");
 }
