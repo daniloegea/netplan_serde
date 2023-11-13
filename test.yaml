@@ -163,3 +163,14 @@ network:
       nameservers:
         addresses: [ "127.0.0.1" ]
         search: [ domain1.example.com, domain2.example.com ]
+  vrfs:
+    vrf1005:
+      table: 1005
+      interfaces:
+        - br1
+        - br1005
+      routes:
+        - to: default
+          via: 10.10.10.4
+      routing-policy:
+        - from: 10.10.10.42

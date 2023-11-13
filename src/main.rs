@@ -15,6 +15,7 @@ pub mod bonds;
 pub mod tunnels;
 pub mod virtual_ethernets;
 pub mod vlans;
+pub mod vrfs;
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -35,6 +36,7 @@ struct Network {
     #[serde(rename = "virtual-ethernets")]
     virtual_ethernets: Option<BTreeMap<String, virtual_ethernets::VirtualEthernet>>,
     vlans: Option<BTreeMap<String, vlans::Vlan>>,
+    vrfs: Option<BTreeMap<String, vrfs::Vrf>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
