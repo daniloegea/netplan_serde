@@ -13,7 +13,7 @@ use crate::common;
 pub struct Match {
     name: Option<String>,
     driver: Option<String>,
-    #[serde(deserialize_with = "common::deserialize_macaddress")]
+    #[serde(default, deserialize_with = "common::deserialize_macaddress")]
     macaddress: Option<String>,
 }
 
@@ -28,14 +28,14 @@ pub struct OpenvSwitch {
     lacp: Option<String>,
     #[serde(rename = "fail-mode", default)]
     fail_mode: Option<String>,
-    #[serde(rename = "mcast-snooping", deserialize_with = "common::deserialize_boolean")]
+    #[serde(default, rename = "mcast-snooping", deserialize_with = "common::deserialize_boolean")]
     mcast_snooping: Option<String>,
-    protocol: Option<Vec<String>>,
-    #[serde(deserialize_with = "common::deserialize_boolean")]
+    protocols: Option<Vec<String>>,
+    #[serde(default, deserialize_with = "common::deserialize_boolean")]
     rstp: Option<String>,
     controller: Option<OpenvSwitchController>,
     ports: Option<Vec<Vec<String>>>,
-
+    ssl: Option<OpenvSwitchSSL>,
 }
 
 #[skip_serializing_none]

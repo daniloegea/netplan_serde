@@ -177,7 +177,7 @@ pub fn deserialize_renderer<'de, D>(d: D) -> Result<Option<String>, D::Error>
 
     let renderer = String::deserialize(d)?;
 
-    if renderer != "NetworkManager" && renderer != "networkd" {
+    if renderer != "NetworkManager" && renderer != "networkd" && renderer != "sriov" {
         return Err(de::Error::invalid_value(de::Unexpected::Str(&renderer), &"renderer must be either NetworkManager or networkd"));
     }
 

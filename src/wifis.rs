@@ -95,6 +95,8 @@ pub struct Wifi {
     // Wifi options
     #[serde(rename = "access-points", default)]
     access_points: Option<BTreeMap<String, AccessPoints>>,
+    #[serde(rename = "regulatory-domain", default)]
+    regulatory_domain: Option<String>,
 }
 
 #[skip_serializing_none]
