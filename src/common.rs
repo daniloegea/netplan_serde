@@ -88,6 +88,17 @@ pub struct RoutingPolicy {
     type_of_service: Option<u64>,
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct NetworkManager {
+    name: Option<String>,
+    uuid: Option<String>,
+    #[serde(rename = "stable-id", default)]
+    stable_id: Option<String>,
+    device: Option<String>,
+    passthrough: Option<BTreeMap<String, String>>,
+}
+
 fn validate_ipaddress(ipv4: &str) -> Result<(), ()> {
 
     let parts: Vec<&str> = ipv4.split('/').collect();

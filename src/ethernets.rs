@@ -4,6 +4,7 @@ use std::fmt::Debug;
 use serde::{Serialize, Deserialize};
 
 use crate::common;
+use crate::common::NetworkManager;
 use crate::common_physical;
 use crate::common_physical::Auth;
 use crate::common_physical::OpenvSwitch;
@@ -67,6 +68,7 @@ pub struct Ethernet {
     set_name: Option<String>,
     #[serde(default, deserialize_with = "common::deserialize_boolean")]
     wakeonlan: Option<String>,
+    wakeonwlan: Option<Vec<String>>,
     #[serde(rename = "emit-lldp", default, deserialize_with = "common::deserialize_boolean")]
     emit_lldp: Option<String>,
     #[serde(rename = "receive-checksum-offload", default, deserialize_with = "common::deserialize_boolean")]
@@ -83,8 +85,25 @@ pub struct Ethernet {
     generic_receive_offload: Option<String>,
     #[serde(rename = "large-receive-offload", default, deserialize_with = "common::deserialize_boolean")]
     large_receive_offload: Option<String>,
-    openvswitch: Option<OpenvSwitch>,
     auth: Option<Auth>,
+
+    // Backend options
+    openvswitch: Option<OpenvSwitch>,
+    networkmanager: Option<NetworkManager>,
+
+    // Ethernet options
+    link: Option<String>,
+    #[serde(rename = "virtual-function-count", default)]
+    virtual_function_count: Option<String>,
+    #[serde(rename = "embedded-switch-mode", default)]
+    embedded_switch_mode: Option<String>,
+    #[serde(rename = "delay-virtual-functions-rebind", default, deserialize_with = "common::deserialize_boolean")]
+    delay_virtual_functions_rebind: Option<String>,
+    #[serde(rename = "infiniband-mode", default)]
+    infiniband_mode: Option<String>,
+
+
+
 }
 
 
