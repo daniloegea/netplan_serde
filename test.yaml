@@ -29,6 +29,9 @@ network:
       dhcp4: true
       dhcp6: true
     eth0:
+      optional-addresses:
+        - ipv6-ra
+        - dhcp6
       dhcp4: true
       dhcp6: true
       renderer: networkd

@@ -125,7 +125,7 @@ fn deserialize_ipaddress<'de, D>(d: D) -> Result<String, D::Error>
 
     let address: String = String::deserialize(d)?;
     if let Err(_) = validate_ipaddress(&address) {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&address), &"must be an IP"));
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&address), &"must be a valid IP address"));
     }
 
     Ok(address)
@@ -140,7 +140,7 @@ fn deserialize_ipaddress_with_options<'de, D>(d: D) -> Result<BTreeMap<String, I
     let keys: Vec<&String> = address.keys().collect();
 
     if let Err(_) = validate_ipaddress(&keys[0]) {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&keys[0]), &"must be an IP"));
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&keys[0]), &"must be a valid IP address"));
     }
 
     Ok(address)
@@ -151,8 +151,10 @@ pub fn deserialize_boolean<'de, D>(d: D) -> Result<Option<String>, D::Error>
 
     let value = String::deserialize(d)?;
 
-    if value != "true" && value != "false" && value != "yes" && value != "no" {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"version must be 2"));
+    let expected = &["true", "on", "yes", "y", "false", "off", "no", "n"];
+
+    if ! expected.contains(&value.as_str()) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"invalid boolean value"));
     }
 
     Ok(Some(value))
@@ -177,8 +179,10 @@ pub fn deserialize_renderer<'de, D>(d: D) -> Result<Option<String>, D::Error>
 
     let renderer = String::deserialize(d)?;
 
-    if renderer != "NetworkManager" && renderer != "networkd" && renderer != "sriov" {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&renderer), &"renderer must be either NetworkManager or networkd"));
+    let expected = &["NetworkManager", "networkd", "sriov"];
+
+    if ! expected.contains(&renderer.as_str()) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&renderer), &"renderer must be either NetworkManager, networkd or sriov"));
     }
 
     Ok(Some(renderer))
@@ -190,8 +194,10 @@ pub fn deserialize_link_local<'de, D>(d: D) -> Result<Option<Vec<String>>, D::Er
 
     let mut link_local: Vec<String> = Vec::deserialize(d)?;
 
+    let expected = &["ipv4", "ipv6"];
+
     for val in &link_local {
-        if val != "ipv4" && val != "ipv6" {
+        if ! expected.contains(&val.as_str()) {
             return Err(de::Error::invalid_value(de::Unexpected::Str(&val), &"value must be either ipv4 or ipv6"));
         }
     }
@@ -207,8 +213,10 @@ pub fn deserialize_dhcp_identifier<'de, D>(d: D) -> Result<Option<String>, D::Er
 
     let identifier = String::deserialize(d)?;
 
-    if identifier != "duid" && identifier != "mac" {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&identifier), &"renderer must be either duid or mac"));
+    let expected = &["duid", "mac"];
+
+    if ! expected.contains(&identifier.as_str()) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&identifier), &"DHCP identifier must be either duid or mac"));
     }
 
     Ok(Some(identifier))
@@ -218,13 +226,15 @@ pub fn deserialize_dhcp_identifier<'de, D>(d: D) -> Result<Option<String>, D::Er
 pub fn deserialize_ipv6_address_generation<'de, D>(d: D) -> Result<Option<String>, D::Error>
     where D: Deserializer<'de> {
 
-    let identifier = String::deserialize(d)?;
+    let value = String::deserialize(d)?;
 
-    if identifier != "euid64" && identifier != "stable-privacy" {
-        return Err(de::Error::invalid_value(de::Unexpected::Str(&identifier), &"renderer must be either duid or mac"));
+    let expected = &["euid64", "stable-privacy"];
+
+    if ! expected.contains(&value.as_str()) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"value must be either euid64 or stable-privacy"));
     }
 
-    Ok(Some(identifier))
+    Ok(Some(value))
 
 }
 
@@ -235,7 +245,7 @@ pub fn deserialize_macaddress<'de, D>(d: D) -> Result<Option<String>, D::Error>
 
     let value = String::deserialize(d)?;
 
-    if !re.is_match(&value) {
+    if ! re.is_match(&value) {
         return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"macaddress not well formed"));
     }
 
@@ -248,9 +258,11 @@ pub fn deserialize_optional_addresses<'de, D>(d: D) -> Result<Option<Vec<String>
 
     let mut optional: Vec<String> = Vec::deserialize(d)?;
 
+    let expected = &["ipv4-ll", "ipv6-ra", "dhcp4", "dhcp6", "static"];
+
     for val in &optional {
-        if val != "ipv4" && val != "ipv6" {
-            return Err(de::Error::invalid_value(de::Unexpected::Str(&val), &"value must be either ipv4 or ipv6"));
+        if ! expected.contains(&val.as_str()) {
+            return Err(de::Error::invalid_value(de::Unexpected::Str(&val), &"allowed values are ipv4-ll, ipv6-ra, dhcp4, dhcp6, static"));
         }
     }
 
@@ -264,6 +276,12 @@ pub fn deserialize_activation_mode<'de, D>(d: D) -> Result<Option<String>, D::Er
     where D: Deserializer<'de> {
 
     let value = String::deserialize(d)?;
+
+    let expected = &["manual", "off"];
+
+    if ! expected.contains(&value.as_str()) {
+        return Err(de::Error::invalid_value(de::Unexpected::Str(&value), &"value must be 'manual' or 'off'"));
+    }
 
     Ok(Some(value))
 }
