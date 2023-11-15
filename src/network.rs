@@ -6,33 +6,33 @@ use serde_with::skip_serializing_none;
 use serde::{Serialize, Deserialize};
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Network {
     #[serde(default, deserialize_with = "common::deserialize_version")]
-    version: Option<u8>,
+    pub version: Option<u8>,
     #[serde(default, deserialize_with = "common::deserialize_renderer")]
-    renderer: Option<String>,
-    openvswitch: Option<OpenvSwitch>,
-    ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
-    modems: Option<BTreeMap<String, modems::Modem>>,
-    wifis: Option<BTreeMap<String, wifis::Wifi>>,
-    bridges: Option<BTreeMap<String, bridges::Bridge>>,
+    pub renderer: Option<String>,
+    pub openvswitch: Option<OpenvSwitch>,
+    pub ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
+    pub modems: Option<BTreeMap<String, modems::Modem>>,
+    pub wifis: Option<BTreeMap<String, wifis::Wifi>>,
+    pub bridges: Option<BTreeMap<String, bridges::Bridge>>,
     #[serde(rename = "dummy-devices")]
-    dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevice>>,
-    bonds: Option<BTreeMap<String, bonds::Bond>>,
-    tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
+    pub dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevice>>,
+    pub bonds: Option<BTreeMap<String, bonds::Bond>>,
+    pub tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
     #[serde(rename = "virtual-ethernets")]
-    virtual_ethernets: Option<BTreeMap<String, virtual_ethernets::VirtualEthernet>>,
-    vlans: Option<BTreeMap<String, vlans::Vlan>>,
-    vrfs: Option<BTreeMap<String, vrfs::Vrf>>,
+    pub virtual_ethernets: Option<BTreeMap<String, virtual_ethernets::VirtualEthernet>>,
+    pub vlans: Option<BTreeMap<String, vlans::Vlan>>,
+    pub vrfs: Option<BTreeMap<String, vrfs::Vrf>>,
     #[serde(rename = "nm-devices")]
-    nm_devices: Option<BTreeMap<String, nm_devices::NmDevice>>,
+    pub nm_devices: Option<BTreeMap<String, nm_devices::NmDevice>>,
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct Netplan {
-    network: Network,
+    pub network: Network,
 }
