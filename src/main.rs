@@ -1,9 +1,6 @@
-use std::{env, fs, collections::BTreeMap, fmt::Debug};
+use std::{env, fs};
 
-use common_physical::OpenvSwitch;
-use serde_with::skip_serializing_none;
 use serde_yaml;
-use serde::{Serialize, Deserialize};
 
 pub mod common;
 pub mod common_physical;
@@ -18,38 +15,7 @@ pub mod virtual_ethernets;
 pub mod vlans;
 pub mod vrfs;
 pub mod nm_devices;
-
-#[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Network {
-    #[serde(default, deserialize_with = "common::deserialize_version")]
-    version: Option<u8>,
-    #[serde(default, deserialize_with = "common::deserialize_renderer")]
-    renderer: Option<String>,
-    openvswitch: Option<OpenvSwitch>,
-    ethernets: Option<BTreeMap<String, ethernets::Ethernet>>,
-    modems: Option<BTreeMap<String, modems::Modem>>,
-    wifis: Option<BTreeMap<String, wifis::Wifi>>,
-    bridges: Option<BTreeMap<String, bridges::Bridge>>,
-    #[serde(rename = "dummy-devices")]
-    dummy_devices: Option<BTreeMap<String, dummy_devices::DummyDevice>>,
-    bonds: Option<BTreeMap<String, bonds::Bond>>,
-    tunnels: Option<BTreeMap<String, tunnels::Tunnel>>,
-    #[serde(rename = "virtual-ethernets")]
-    virtual_ethernets: Option<BTreeMap<String, virtual_ethernets::VirtualEthernet>>,
-    vlans: Option<BTreeMap<String, vlans::Vlan>>,
-    vrfs: Option<BTreeMap<String, vrfs::Vrf>>,
-    #[serde(rename = "nm-devices")]
-    nm_devices: Option<BTreeMap<String, nm_devices::NmDevice>>,
-}
-
-#[skip_serializing_none]
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Netplan {
-    network: Network,
-}
+pub mod network;
 
 fn main() {
 
@@ -61,7 +27,7 @@ fn main() {
 
     let yaml = fs::read_to_string(&args[1]).unwrap();
 
-    let a: Netplan = match serde_yaml::from_str(&yaml) {
+    let netplan: network::Netplan = match serde_yaml::from_str(&yaml) {
         Ok(n) => n,
         Err(err) => {
             println!("Error {:?}", err);
@@ -69,8 +35,8 @@ fn main() {
         }
     };
 
-    println!("{a:#?}");
+    println!("{netplan:#?}");
 
-    let yaml = serde_yaml::to_string(&a).unwrap();
+    let yaml = serde_yaml::to_string(&netplan).unwrap();
     println!("{yaml}");
 }
